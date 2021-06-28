@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DockWeb</title>
+    <link rel="stylesheet" href="dw.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+
+<!--Show Images-->
+<script>
+  function simages(){
+      console.log('clicked me ')
+      
+      //var i = document.getElementById("in1").value;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://192.168.29.118/cgi-bin/basic.py?x=docker+images" , true);
+      
+      xhr.send();
+      
+      xhr.onload = function() {
+          var output = xhr.responseText;
+          document.getElementById("d1").innerHTML = output;
+      }
+  }
+</script>
+
+
+<!--Pull Image-->
+  <script>
+    function pull(){        
+        var i = document.getElementById("in1").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://192.168.29.118/cgi-bin/pull.py?x=" + i , true);
+        
+        xhr.send();
+        
+        xhr.onload = function() {
+            var output = xhr.responseText;
+            document.getElementById("d1").innerHTML = output;
+        }
+    }
+</script>
+
+<!--Process Status-->
+<script>
+  function ps(){      
+      //var i = document.getElementById("in1").value;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://192.168.29.118/cgi-bin/basic.py?x=docker+ps+-a" , true);
+      
+      xhr.send();
+      
+      xhr.onload = function() {
+          var output = xhr.responseText;
+          document.getElementById("d1").innerHTML = output;
+      }
+  }
+</script>
+
+<!--Run Container-->
+<script>
+  function run(){ 
+    console.log('clicked me ')       
+      var i = document.getElementById("in2").value;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://192.168.29.118/cgi-bin/run.py?x=" + i , true);
+      
+      xhr.send();
+      
+      xhr.onload = function() {
+          var output = xhr.responseText;
+          document.getElementById("d1").innerHTML = output + "Container has been created";
+      }
+  }
+</script>
+
+<!--Remove Image-->
+<script>
+  function rem(){ 
+    console.log('clicked me ')       
+      var i = document.getElementById("in3").value;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://192.168.29.118/cgi-bin/rem.py?x=" + i , true);
+      
+      
+      xhr.send();
+      
+      xhr.onload = function() {
+          var output = xhr.responseText;
+          document.getElementById("d1").innerHTML = output + "Successfull Removed Image";
+      }
+  }
+</script>
+
+<!--Remove Container-->
+<script>
+  function crem(){ 
+    console.log('clicked me ')       
+      var i = document.getElementById("in4").value;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://192.168.29.118/cgi-bin/crem.py?x=" + i , true);
+      
+      xhr.send();
+      
+      xhr.onload = function() {
+          var output = xhr.responseText;
+          document.getElementById("d1").innerHTML = output + "is removed successfully !";
+      }
+  }
+</script>
+
+  <body>
+
+    <nav>
+      <div class="logo">
+       <h1>DockWeb</h1>
+      </div>
+      <div class="menu">
+        <a href="#">Home</a>
+        <a href="#">Contact</a>
+        <a href="#">About</a>
+      </div>
+      <!--<div class="menu">
+        <a href="#">Home</a>
+        <a href="#">Contact</a>
+        <a href="#">About</a>
+      </div>-->
+    </nav>
+
+    <div class="container">
+      <div class="modal-container">
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="align-items: center; margin-left: 220px;font-weight: bold;">Docker Output</h4>
+              </div>
+              <pre>
+                <div class="modal-body" id="d1">Please wait output is coming...</div>
+              </pre>
+              <div class="modal-footer" >
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="inner-box">
+              <div class="card-front">
+                <span>Docker Images</span>
+              </div>
+              <div class="card-back">
+                <p style="margin-top: 30px; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 20px;">Here you can see all the Images</p><br>
+                <button onclick="simages()" class="cbutton" id="dimg" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >List Images</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="inner-box">
+              <div class="card-front">
+                <span>Pull Image</span>
+              </div>
+              <div class="card-back">
+                <p style="margin-top: 20px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">From here u can pull image</p><br>
+                <div class="enter">
+                  <label>Enter Name of Image: </label>
+                  <input id="in1" /><br />
+                </div>
+                <button onclick="pull()" class="cbutton" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Pull Image</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="inner-box">
+              <div class="card-front">
+                <span>Running Containers</span>
+              </div>
+              <div class="card-back">
+                <p style="margin-top: 30px; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 20px;">Here you can see all running process</p><br>
+                <button onclick="ps()" class="cbutton" id="rp" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">List Containers</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="inner-box">
+              <div class="card-front">
+                <span>Run Container</span>
+              </div>
+              <div class="card-back">
+                <p style="margin-top: 10px;">From here you can Run a Container</p><br>
+                
+                <div class="enter">
+                  <label>Enter Name of Image: </label>
+                  <input id="in2" /><br />
+                </div>
+                <button onclick="run()" class="cbutton" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Run Container</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="inner-box">
+              <div class="card-front">
+                <span>Delete Image</span>
+              </div>
+              <div class="card-back">
+                <p style="margin-top: 10px;">From here you can Remove a Image</p><br>
+                <div class="enter">
+                  <label>Enter Name of Image: </label>
+                  <input id="in3" /><br />
+                </div>
+                <button onclick="rem()" class="cbutton" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Remove Image</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="inner-box">
+              <div class="card-front">
+                <span>Delete Container</span>
+              </div>
+              <div class="card-back">
+                <p style="margin-top: 10px;">From here you can Remove a Container</p><br>
+                <div class="enter">
+                  <label>Enter Name of Container: </label>
+                  <input id="in4" /><br />
+                </div>
+                <button onclick="crem()" class="cbutton" id="rebt" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Remove Container</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+    </div>
+  </body>
+</html>
